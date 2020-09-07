@@ -1,0 +1,66 @@
+spring:
+  main:
+    lazy-initialization: false
+
+
+
+# ================== datasource ==================
+
+datasource:
+
+  # read
+  read:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://localhost/Channel?autoReconnect=true&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: root
+
+    pool-name: readDbPool
+    maximum-pool-size: 20
+    minimum-idle: 10
+    max-lifetime: 180000
+    connection-timeout: 30000
+    idle-timeout: 30000
+    pool-prepared-statements: true
+    max-open-prepared-statements: 250
+
+  # write
+  write:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://localhost/Channel?autoReconnect=true&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: root
+
+    pool-name: writeDbPool
+    maximum-pool-size: 20
+    minimum-idle: 10
+    max-lifetime: 180000
+    connection-timeout: 30000
+    idle-timeout: 30000
+    pool-prepared-statements: true
+    max-open-prepared-statements: 250
+
+
+
+# ================== discovery ==================
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8011/eureka/
+
+      healthcheck:
+        enabled: true
+
+      instance:
+        hostname: localhost
+        lease-renewal-interval-in-seconds: 10
+        lease-expiration-duration-in-seconds: 30
+
+        metadata-map:
+          user.name: ${security.user.actuator.username}
+          user.password: ${security.user.actuator.password}
+
+
+
+# ================== logging ==================
+logging.level.org.springframework.cloud.sleuth: DEBUG
